@@ -1,0 +1,611 @@
+/* ====================================
+   TABLE STYLES - Queue Table
+   ==================================== */
+.tabulator {
+    font-size: 13px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    font-family: 'Vazir', sans-serif;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabulator-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    box-shadow: var(--shadow-md);
+}
+
+.tabulator-col {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%) !important;
+    color: white !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 12px 8px !important;
+    font-weight: 600;
+    text-align: center;
+}
+
+.tabulator-col-title {
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.tabulator-row {
+    min-height: 36px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color var(--transition-fast);
+}
+
+.tabulator-cell {
+    padding: 8px 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-primary);
+    border-right: 1px solid var(--border-color);
+}
+
+/* Alternating row colors */
+.tabulator-row:nth-child(even) {
+    background-color: var(--bg-tertiary);
+}
+
+.tabulator-row:nth-child(odd) {
+    background-color: var(--bg-primary);
+}
+
+/* Hover effect */
+.tabulator-row:hover {
+    background-color: rgba(13, 71, 161, 0.08) !important;
+    box-shadow: inset 0 0 0 1px var(--primary);
+    transform: scale(1.01);
+    transition: all var(--transition-fast);
+}
+
+/* Selected row */
+.tabulator-selected {
+    background-color: rgba(13, 71, 161, 0.15) !important;
+}
+
+/* Footer */
+.tabulator-footer {
+    background-color: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+    font-size: 12px;
+    padding: 8px;
+    color: var(--text-secondary);
+}
+
+.tabulator-page {
+    padding: 4px 8px;
+    margin: 0 2px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.tabulator-page:hover {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.tabulator-page.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Drag handle */
+.drag-handle-cell {
+    cursor: grab;
+    padding: 0 8px !important;
+}
+
+.drag-handle-cell:active {
+    cursor: grabbing;
+}
+
+/* Status badges in cells */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pending {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.status-in-progress {
+    background-color: rgba(13, 71, 161, 0.1);
+    color: var(--primary);
+    border: 1px solid rgba(13, 71, 161, 0.3);
+}
+
+.status-completed {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-cancelled {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Tooltip for status on hover */
+.cell-tooltip {
+    position: relative;
+}
+
+.cell-tooltip .tooltip-text {
+    visibility: hidden;
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -50px;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: var(--shadow-lg);
+}
+
+.cell-tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--text-primary) transparent transparent transparent;
+}
+
+.cell-tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ====================================
+   DAY PAGINATION
+   ==================================== */
+.day-pagination {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 12px 8px;
+    background-color: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+    white-space: nowrap;
+    scroll-behavior: smooth;
+}
+
+.day-pagination::-webkit-scrollbar {
+    height: 6px;
+}
+
+.day-pagination::-webkit-scrollbar-thumb {
+    background: var(--neutral-400);
+    border-radius: 3px;
+}
+
+.day-btn {
+    flex: 0 0 auto;
+    min-width: 40px;
+    height: 40px;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-primary);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Vazir', sans-serif;
+}
+
+.day-btn:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.day-btn.active {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+    animation: slideInUp var(--transition-fast) ease-out;
+}
+
+.day-btn.today {
+    border: 2px solid var(--success);
+    color: var(--success);
+    font-weight: 700;
+}
+
+.day-btn.today.active {
+    background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+    color: white;
+    border-color: var(--success);
+}
+
+/* ====================================
+   QUEUE TABLE CONTAINER
+   ==================================== */
+#queueTable {
+    width: 100%;
+    height: calc(100vh - 240px);
+}
+
+.queue-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.queue-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 12px;
+}
+
+.queue-header h5 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.queue-toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.queue-toolbar .form-control {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* ====================================
+   TABS FOR SYSTEMADMIN
+   ==================================== */
+.nav-tabs {
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    background-color: var(--bg-tertiary);
+    padding: 8px;
+    border-radius: 8px 8px 0 0;
+}
+
+.nav-tabs .nav-link {
+    padding: 12px 20px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    margin-right: 8px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    background-color: transparent;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--primary);
+    background-color: rgba(13, 71, 161, 0.05);
+    border-color: rgba(13, 71, 161, 0.2);
+}
+
+.nav-tabs .nav-link.active {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+}
+
+.tab-content {
+    background-color: var(--bg-primary);
+    border-radius: 0 8px 8px 8px;
+    padding: 16px;
+    animation: fadeIn var(--transition-base) ease-out;
+}
+
+.tab-pane {
+    animation: fadeIn var(--transition-base) ease-out;
+}
+
+/* ====================================
+   COMPANY TAB BADGES
+   ==================================== */
+.company-tab-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+    background-color: rgba(13, 71, 161, 0.1);
+    color: var(--primary);
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 8px;
+}
+
+.company-tab-badge.has-queues {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+/* ====================================
+   CARDS FOR QUEUE INFO
+   ==================================== */
+.queue-info-card {
+    background: linear-gradient(135deg, rgba(13, 71, 161, 0.05) 0%, rgba(38, 198, 218, 0.05) 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    animation: slideInUp var(--transition-base) ease-out;
+}
+
+.queue-info-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+}
+
+.queue-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.stat-card {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    transition: all var(--transition-fast);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+/* ====================================
+   EMPTY STATE
+   ==================================== */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.empty-state-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.empty-state-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.empty-state-description {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 300px;
+}
+
+/* ====================================
+   EDIT MODE
+   ==================================== */
+.editable-cell {
+    cursor: pointer;
+    position: relative;
+}
+
+.editable-cell:hover::after {
+    content: "✎";
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.cell-editor {
+    position: relative;
+}
+
+.cell-editor input {
+    width: 100%;
+    padding: 4px 8px;
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* ====================================
+   MODALS & DIALOGS
+   ==================================== */
+.modal-backdrop.show {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    animation: fadeIn var(--transition-fast) ease-out;
+}
+
+.modal.show .modal-dialog {
+    animation: slideInUp var(--transition-base) ease-out;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    border-radius: 8px 8px 0 0;
+}
+
+.modal-header .btn-close {
+    filter: invert(1) brightness(0.8);
+}
+
+/* ====================================
+   ALERTS
+   ==================================== */
+.alert {
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+    animation: slideInDown var(--transition-base) ease-out;
+}
+
+.alert-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border-left: 4px solid var(--success);
+}
+
+.alert-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+    border-left: 4px solid var(--warning);
+}
+
+.alert-danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+    border-left: 4px solid var(--error);
+}
+
+.alert-info {
+    background-color: rgba(13, 71, 161, 0.1);
+    color: var(--primary);
+    border-left: 4px solid var(--primary);
+}
+
+/* ====================================
+   SPINNERS & LOADING
+   ==================================== */
+.spinner-border {
+    color: var(--primary);
+    border-width: 3px;
+}
+
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.25em;
+}
+
+/* ====================================
+   RESPONSIVE ADJUSTMENTS
+   ==================================== */
+@media (max-width: 1024px) {
+    #queueTable {
+        height: calc(100vh - 300px);
+    }
+    
+    .queue-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    #queueTable {
+        height: calc(100vh - 350px);
+    }
+    
+    .tabulator-cell {
+        font-size: 11px;
+        padding: 6px 3px;
+    }
+    
+    .tabulator-col {
+        padding: 8px 4px !important;
+        font-size: 11px;
+    }
+    
+    .nav-tabs {
+        gap: 4px;
+    }
+    
+    .nav-tabs .nav-link {
+        padding: 8px 12px;
+        font-size: 12px;
+        margin-right: 4px;
+    }
+    
+    .queue-toolbar {
+        flex-direction: column;
+    }
+    
+    .queue-toolbar .form-control {
+        width: 100%;
+    }
+    
+    .queue-stats {
+        grid-template-columns: 1fr;
+    }
+}
