@@ -1,0 +1,93 @@
+@model List<LoadingQueue.Models.Company>
+
+@{
+    ViewData["Title"] = "مدیریت شرکت‌ها";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h4>مدیریت شرکت‌های حمل‌ونقل</h4>
+
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i>
+        شرکت جدید
+    </a>
+
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="table-responsive">
+
+    <table class="table table-striped align-middle">
+
+        <thead class="table-primary">
+            <tr>
+                <th>نام شرکت</th>
+                <th>شناسه ملی</th>
+                <th>تلفن</th>
+                <th>تعداد راننده</th>
+                <th>تعداد نوبت</th>
+                <th>وضعیت</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var company in Model)
+            {
+                <tr>
+                    <td>@company.Name</td>
+                    <td>@company.NationalId</td>
+                    <td>@company.Phone</td>
+                    <td>@company.Drivers.Count</td>
+                    <td>@company.Queues.Count</td>
+                    <td>
+                        @if (company.IsActive)
+                        {
+                            <span class="badge bg-success">فعال</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">غیرفعال</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@company.Id" class="btn btn-sm btn-outline-info">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@company.Id" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-warning btn-toggle"
+                                data-id="@company.Id">
+                            <i class="bi bi-power"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+
+@section Scripts {
+<script>
+$(".btn-toggle").on("click", function () {
+
+    let id = $(this).data("id");
+
+    $.post("/Company/ToggleActive/" + id, function () {
+        location.reload();
+    });
+
+});
+</script>
+}

@@ -1,0 +1,2 @@
+dotnet ef migrations add AddQueueSortOrder
+dotnet ef database update

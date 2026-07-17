@@ -1,0 +1,113 @@
+@model LoadingQueue.Models.Driver
+
+@{
+    ViewData["Title"] = "ثبت راننده";
+}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-primary text-white">
+
+                <h4 class="mb-0">
+
+                    <i class="bi bi-person-plus-fill"></i>
+
+                    ثبت راننده جدید
+
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <form asp-action="Create" method="post">
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="FullName" class="form-label"></label>
+
+                            <input asp-for="FullName" class="form-control"/>
+
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="PhoneNumber" class="form-label"></label>
+
+                            <input asp-for="PhoneNumber" class="form-control"/>
+
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="CarNumber" class="form-label"></label>
+
+                            <input asp-for="CarNumber" class="form-control"/>
+
+                            <span asp-validation-for="CarNumber" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <label asp-for="CardNumberOrSheba" class="form-label"></label>
+
+                            <input asp-for="CardNumberOrSheba" class="form-control"/>
+
+                            <span asp-validation-for="CardNumberOrSheba" class="text-danger"></span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-between">
+
+                        <a asp-action="Index" class="btn btn-secondary">
+
+                            <i class="bi bi-arrow-right-circle"></i>
+
+                            بازگشت
+
+                        </a>
+
+                        <button type="submit" class="btn btn-success">
+
+                            <i class="bi bi-check-circle-fill"></i>
+                            
+                            ثبت راننده
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts{
+
+    <partial name="_ValidationScriptsPartial"/>
+
+}

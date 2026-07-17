@@ -1,0 +1,51 @@
+@model LoadingQueue.Models.Company
+
+@{
+    ViewData["Title"] = "مشخصات شرکت";
+}
+
+<div class="row justify-content-center">
+
+    <div class="col-lg-8">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">@Model.Name</h5>
+            </div>
+
+            <div class="card-body">
+
+                <dl class="row">
+                    <dt class="col-sm-3">شناسه ملی</dt>
+                    <dd class="col-sm-9">@Model.NationalId</dd>
+
+                    <dt class="col-sm-3">تلفن</dt>
+                    <dd class="col-sm-9">@Model.Phone</dd>
+
+                    <dt class="col-sm-3">آدرس</dt>
+                    <dd class="col-sm-9">@Model.Address</dd>
+
+                    <dt class="col-sm-3">توضیحات</dt>
+                    <dd class="col-sm-9">@Model.Description</dd>
+
+                    <dt class="col-sm-3">تعداد راننده</dt>
+                    <dd class="col-sm-9">@Model.Drivers.Count</dd>
+
+                    <dt class="col-sm-3">تعداد نوبت</dt>
+                    <dd class="col-sm-9">@Model.Queues.Count</dd>
+
+                    <dt class="col-sm-3">تاریخ ثبت</dt>
+                    <dd class="col-sm-9">@Model.CreatedAt.ToString("yyyy/MM/dd")</dd>
+                </dl>
+
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">ویرایش</a>
+                <a asp-action="Index" class="btn btn-secondary">بازگشت</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

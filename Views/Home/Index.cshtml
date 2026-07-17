@@ -1,0 +1,128 @@
+﻿@model LoadingQueue.ViewModels.DashboardVm
+
+@{
+    ViewData["Title"] = "داشبورد";
+}
+
+<div class="row g-3 mb-3">
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center p-3">
+            <div class="fs-2">📅</div>
+            <div class="fs-4 fw-bold">@Model.TodayCount</div>
+            <div class="text-muted">کل نوبت‌های امروز</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center p-3">
+            <div class="fs-2">✅</div>
+            <div class="fs-4 fw-bold text-success">@Model.TodayCompleted</div>
+            <div class="text-muted">تکمیل شده امروز</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center p-3">
+            <div class="fs-2">⏳</div>
+            <div class="fs-4 fw-bold text-warning">@Model.TodayPending</div>
+            <div class="text-muted">در انتظار امروز</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center p-3">
+            <div class="fs-2">📊</div>
+            <div class="fs-4 fw-bold">@Model.WeekCount</div>
+            <div class="text-muted">کل نوبت‌های هفته</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row g-3">
+
+    <div class="col-md-8">
+        <div class="card shadow-sm p-3">
+            <h6>نمودار نوبت‌ها در ۷ روز گذشته</h6>
+            <canvas id="weekChart" height="90"></canvas>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3">
+            <h6>وضعیت نوبت‌های امروز</h6>
+            <canvas id="statusChart" height="220"></canvas>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+<script>
+
+//========================
+// نمودار خطی هفته اخیر
+//========================
+new Chart(document.getElementById("weekChart"), {
+
+    type: "line",
+
+    data: {
+        labels: @Html.Raw(Json.Serialize(Model.ChartLabels)),
+        datasets: [
+            {
+                label: "کل نوبت‌ها",
+                data: @Html.Raw(Json.Serialize(Model.ChartTotal)),
+                borderColor: "#0d6efd",
+                backgroundColor: "rgba(13,110,253,0.1)",
+                tension: 0.3,
+                fill: true
+            },
+            {
+                label: "تکمیل شده",
+                data: @Html.Raw(Json.Serialize(Model.ChartCompleted)),
+                borderColor: "#198754",
+                backgroundColor: "rgba(25,135,84,0.1)",
+                tension: 0.3,
+                fill: true
+            }
+        ]
+    },
+
+    options: {
+        responsive: true,
+        plugins: { legend: { position: "bottom" } }
+    }
+
+});
+
+
+//========================
+// نمودار دایره‌ای وضعیت امروز
+//========================
+new Chart(document.getElementById("statusChart"), {
+
+    type: "doughnut",
+
+    data: {
+        labels: @Html.Raw(Json.Serialize(Model.StatusLabels)),
+        datasets: [{
+            data: @Html.Raw(Json.Serialize(Model.StatusCounts)),
+            backgroundColor: ["#ffc107", "#0dcaf0", "#198754", "#dc3545"]
+        }]
+    },
+
+    options: {
+        responsive: true,
+        plugins: { legend: { position: "bottom" } }
+    }
+
+});
+
+</script>
+
+}

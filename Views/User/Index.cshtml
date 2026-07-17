@@ -1,0 +1,81 @@
+@model List<LoadingQueue.ViewModels.UserListItemVm>
+
+@{
+    ViewData["Title"] = "مدیریت کاربران";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>مدیریت کاربران و سطح دسترسی</h4>
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-person-plus"></i>
+        کاربر جدید
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead class="table-primary">
+            <tr>
+                <th>نام و نام خانوادگی</th>
+                <th>ایمیل</th>
+                <th>نقش</th>
+                <th>شرکت</th>
+                <th>وضعیت</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                    <td><span class="badge bg-info text-dark">@RoleFa(user.Role)</span></td>
+                    <td>@(user.CompanyName ?? "—")</td>
+                    <td>
+                        @if (user.IsActive)
+                        {
+                            <span class="badge bg-success">فعال</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">غیرفعال</span>
+                        }
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-warning btn-toggle" data-id="@user.Id">
+                            <i class="bi bi-power"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@functions {
+    string RoleFa(string role) => role switch
+    {
+        "SystemAdmin" => "مدیر سیستم",
+        "CompanyAdmin" => "مدیر شرکت",
+        "User" => "کاربر عادی",
+        "Driver" => "راننده",
+        _ => role
+    };
+}
+
+@section Scripts {
+<script>
+$(".btn-toggle").on("click", function () {
+    let id = $(this).data("id");
+    $.post("/User/ToggleActive/" + id, function () {
+        location.reload();
+    });
+});
+</script>
+}

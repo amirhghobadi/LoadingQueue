@@ -1,0 +1,216 @@
+
+@{
+    ViewData["Title"] = "رانندگان";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h3>
+            🚚 لیست رانندگان
+        </h3>
+
+        <a asp-action="Create" class="btn btn-success">
+
+            <i class="bi bi-plus-circle"></i>
+
+            ثبت راننده
+
+        </a>
+
+    </div>
+
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+
+            @TempData["Success"]
+
+        </div>
+    }
+
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover align-middle text-center">
+
+                <thead class="table-dark">
+
+                <tr>
+
+                    <th>ردیف</th>
+
+                    <th>نام</th>
+
+                    <th>شماره تماس</th>
+
+                    <th>شماره ماشین</th>
+
+                    <th>شماره کارت / شبا</th>
+
+                    <th>تعداد نوبت</th>
+
+                    <th>عملیات</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                @{
+                    int row = 1;
+                }
+
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+
+                        <td>@row</td>
+
+                        <td>@item.FullName</td>
+
+                        <td>@item.PhoneNumber</td>
+
+                        <td>@item.CarNumber</td>
+
+                        <td>@item.CardNumberOrSheba</td>
+
+                        <td>
+
+                            <span class="badge bg-primary">
+
+                                @item.Queues.Count
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <a asp-action="Details"
+                               asp-route-id="@item.Id"
+                               class="btn btn-info btn-sm">
+
+                                مشاهده
+
+                            </a>
+
+                            <a asp-action="Edit"
+                               asp-route-id="@item.Id"
+                               class="btn btn-warning btn-sm">
+
+                                ویرایش
+
+                            </a>
+
+<button class="btn btn-danger btnDelete"
+
+        data-id="@item.Id"
+
+        data-name="@item.FullName">
+
+    <i class="bi bi-trash"></i>
+
+</button>
+
+                        </td>
+
+                    </tr>
+
+                    row++;
+                }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts{
+
+<script>
+
+$(".datatable").DataTable({
+
+language:{
+
+url:"//cdn.datatables.net/plug-ins/1.13.8/i18n/fa.json"
+
+}
+
+});
+
+$(".btnDelete").click(function(){
+
+let id=$(this).data("id");
+
+let name=$(this).data("name");
+
+Swal.fire({
+
+title:"حذف راننده",
+
+text:"آیا "+name+" حذف شود؟",
+
+icon:"warning",
+
+showCancelButton:true,
+
+confirmButtonText:"بله",
+
+cancelButtonText:"خیر"
+
+})
+
+.then((result)=>{
+
+if(result.isConfirmed){
+
+$.ajax({
+
+url:"/Driver/Delete/"+id,
+
+type:"POST",
+
+success:function(){
+
+Swal.fire({
+
+icon:"success",
+
+title:"حذف شد",
+
+timer:1500,
+
+showConfirmButton:false
+
+}).then(()=>{
+
+location.reload();
+
+});
+
+}
+
+});
+
+}
+
+});
+
+});
+
+</script>
+
+}

@@ -1,0 +1,64 @@
+@model List<LoadingQueue.Models.ShippingCompany>
+
+@{
+    ViewData["Title"] = "مدیریت باربری‌ها";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>مدیریت باربری‌ها</h4>
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i>
+        باربری جدید
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead class="table-primary">
+            <tr>
+                <th>نام باربری</th>
+                <th>مدیرعامل</th>
+                <th>موبایل</th>
+                <th>وضعیت</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sc in Model)
+            {
+                <tr>
+                    <td>@sc.Name</td>
+                    <td>@sc.ManagerName</td>
+                    <td>@sc.MobilePhone</td>
+                    <td>
+                        @switch (sc.Status)
+                        {
+                            case LoadingQueue.Models.ShippingCompanyStatus.Active:
+                                <span class="badge bg-success">فعال</span>
+                                break;
+                            case LoadingQueue.Models.ShippingCompanyStatus.Inactive:
+                                <span class="badge bg-secondary">غیرفعال</span>
+                                break;
+                            default:
+                                <span class="badge bg-warning text-dark">در انتظار تایید</span>
+                                break;
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@sc.Id" class="btn btn-sm btn-outline-info">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@sc.Id" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

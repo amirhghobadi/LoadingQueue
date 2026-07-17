@@ -1,0 +1,328 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using LoadingQueue.Models
+@inject LoadingQueue.Repositories.INotificationRepository NotificationRepo
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>@ViewData["Title"] | سیستم صف بارگیری</title>
+
+    <link href="https://unpkg.com/tabulator-tables@6.3.0/dist/css/tabulator_bootstrap5.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css">
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+</head>
+
+<body>
+
+@{
+    ApplicationUser? currentUser = null;
+    List<Notification> notifications = new();
+    int unreadCount = 0;
+
+    if (User.Identity?.IsAuthenticated == true)
+    {
+        currentUser = await UserManager.GetUserAsync(User);
+
+        if (currentUser?.CompanyId != null)
+        {
+            notifications = await NotificationRepo.GetRecentAsync(currentUser.CompanyId.Value, 5);
+            unreadCount = await NotificationRepo.GetUnreadCountAsync(currentUser.CompanyId.Value);
+        }
+    }
+}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+
+    <div class="container">
+
+        <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+            🚚 سیستم صف بارگیری
+        </a>
+
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <ul class="navbar-nav me-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">
+                            <i class="bi bi-speedometer2"></i>
+                            داشبورد
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Report" asp-action="Index">
+                            <i class="bi bi-file-earmark-bar-graph"></i>
+                            گزارش‌ها
+                        </a>
+                    </li>
+
+                  @if (User.IsInRole("SystemAdmin") || User.IsInRole("CompanyAdmin"))
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="ShippingCompany" asp-action="Index">
+            <i class="bi bi-truck"></i>
+            باربری‌ها
+        </a>
+    </li>
+   
+}
+
+@if (User.IsInRole("CompanyAdmin"))
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="Settings" asp-action="Index">
+            <i class="bi bi-gear"></i>
+            تنظیمات
+        </a>
+    </li>
+    
+}
+@if (User.IsInRole("SystemAdmin"))
+{
+      <li class="nav-item">
+        <a class="nav-link" asp-controller="Company" asp-action="Index">
+            <i class="bi bi-gear"></i>
+            شرکت ها
+        </a>
+    </li>
+    
+}
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Driver" asp-action="Index">
+                            <i class="bi bi-person-fill"></i>
+                            رانندگان
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Queue" asp-action="Index">
+                            <i class="bi bi-list-check"></i>
+                            صف بارگیری
+                        </a>
+                    </li>
+
+                </ul>
+
+                <ul class="navbar-nav ms-auto align-items-center">
+
+                    <li class="nav-item dropdown me-3">
+    <a class="nav-link dropdown-toggle text-white" href="#" id="notifBell" data-bs-toggle="dropdown">
+        🔔
+        @if (unreadCount > 0)
+        {
+            <span class="badge bg-danger" id="notifBadge">@unreadCount</span>
+        }
+    </a>
+<ul class="dropdown-menu dropdown-menu-end" id="notifList" style="min-width:300px">
+
+    <li class="d-flex justify-content-between align-items-center px-3 py-1">
+        <span class="fw-bold small">اعلان‌ها</span>
+        <button type="button" id="btnClearNotifs" class="btn btn-sm btn-link text-danger p-0 @(notifications.Any() ? "" : "d-none")">
+            پاک کردن همه
+        </button>
+    </li>
+
+    <li><hr class="dropdown-divider"></li>
+
+    <li id="notifEmpty" class="@(notifications.Any() ? "d-none" : "")">
+        <span class="dropdown-item-text text-muted">اعلانی وجود ندارد</span>
+    </li>
+
+    <li id="notifItems">
+        @foreach (var n in notifications)
+        {
+            <div class="notif-item">
+                <div class="dropdown-item-text @(n.IsRead ? "" : "bg-light")">
+                    <div class="fw-bold small">@n.Title</div>
+                    <div class="small text-muted">@n.Message</div>
+                    <div class="small text-muted">@n.CreatedAt.ToString("HH:mm")</div>
+                </div>
+                <hr class="dropdown-divider">
+            </div>
+        }
+    </li>
+
+</ul>
+
+
+
+</li>
+
+
+
+
+                    <li class="nav-item text-white me-3">
+                        👤 @(currentUser?.FullName ?? User.Identity!.Name)
+                    </li>
+
+                    <li class="nav-item">
+                        <form method="post" asp-controller="Account" asp-action="Logout">
+                            <button type="submit" class="btn btn-outline-light btn-sm">خروج</button>
+                        </form>
+                    </li>
+
+                </ul>
+            }
+
+        </div>
+
+    </div>
+
+</nav>
+
+<div class="container-fluid mt-4">
+    @RenderBody()
+</div>
+
+<footer class="border-top mt-5">
+    <div class="container py-3 text-center text-muted">
+        © @DateTime.Now.Year
+        سیستم مدیریت صف بارگیری
+    </div>
+</footer>
+
+<script src="https://unpkg.com/tabulator-tables@6.3.0/dist/js/tabulator.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+
+
+<script>
+
+    $("#notifBell").on("click", function () {
+
+        $("#notifBadge").remove();
+
+        $.post("/Notification/MarkAllRead");
+
+    });
+
+    $("#btnClearNotifs").on("click", function () {
+
+        $.post("/Notification/ClearAll", function () {
+            location.reload();
+        });
+
+    });
+
+
+    //============================================
+    // هر ۱۵ ثانیه یه‌بار، بدون رفرش صفحه، اعلان‌ها رو از سرور می‌گیره
+    // و بج + لیست رو به‌روز می‌کنه (Polling)
+    //============================================
+    function refreshNotifications() {
+
+        $.get("/Notification/GetLatest", function (res) {
+
+            let $bell = $("#notifBell");
+
+            $("#notifBadge").remove();
+
+            if (res.unreadCount > 0) {
+                $bell.append('<span class="badge bg-danger" id="notifBadge">' + res.unreadCount + '</span>');
+            }
+
+            if (res.items.length === 0) {
+
+                $("#notifItems").empty();
+                $("#notifEmpty").removeClass("d-none");
+                $("#btnClearNotifs").addClass("d-none");
+
+                return;
+            }
+
+            $("#notifEmpty").addClass("d-none");
+            $("#btnClearNotifs").removeClass("d-none");
+
+            let html = "";
+
+            res.items.forEach(function (n) {
+
+                html += '<div class="notif-item">' +
+                    '<div class="dropdown-item-text ' + (n.isRead ? "" : "bg-light") + '">' +
+                    '<div class="fw-bold small"></div>' +
+                    '<div class="small text-muted"></div>' +
+                    '<div class="small text-muted">' + n.time + '</div>' +
+                    '</div><hr class="dropdown-divider"></div>';
+
+            });
+
+            $("#notifItems").html(html);
+
+            // تایتل و متن رو جدا با text() ست می‌کنیم (نه توی رشته‌ی HTML بالا)
+            // تا اگه تو عنوان/پیام یه اعلان کاراکتر خاصی (< > &) بود، مشکل امنیتی/نمایشی پیش نیاد
+            $("#notifItems .notif-item").each(function (i) {
+
+                $(this).find(".fw-bold").text(res.items[i].title);
+                $(this).find(".small.text-muted").eq(0).text(res.items[i].message);
+
+            });
+
+        });
+
+    }
+
+    setInterval(refreshNotifications, 15000);
+
+</script>
+
+@if (TempData["Success"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'موفق',
+            text: '@TempData["Success"]',
+            timer: 1800,
+            showConfirmButton: false
+        });
+    </script>
+}
+
+@if (TempData["Error"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'خطا',
+            text: '@TempData["Error"]'
+        });
+    </script>
+}
+
+@await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

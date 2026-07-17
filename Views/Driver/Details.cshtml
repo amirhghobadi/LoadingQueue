@@ -1,0 +1,148 @@
+@model LoadingQueue.Models.Driver
+
+@{
+    ViewData["Title"] = "مشخصات راننده";
+}
+
+<div class="row">
+
+    <div class="col-lg-10 mx-auto">
+
+        <div class="card shadow">
+
+            <div class="card-header bg-info text-white">
+
+                <h4>
+
+                    <i class="bi bi-person-vcard"></i>
+
+                    مشخصات راننده
+
+                </h4>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="fw-bold">نام راننده</label>
+
+                        <div class="form-control bg-light">
+
+                            @Model.FullName
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="fw-bold">شماره تماس</label>
+
+                        <div class="form-control bg-light">
+
+                            @Model.PhoneNumber
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="fw-bold">شماره ماشین</label>
+
+                        <div class="form-control bg-light">
+
+                            @Model.CarNumber
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="fw-bold">شماره کارت / شبا</label>
+
+                        <div class="form-control bg-light">
+
+                            @Model.CardNumberOrSheba
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="fw-bold">
+
+                            تاریخ ثبت
+
+                        </label>
+
+                        <div class="form-control bg-light">
+
+                            @(Model.RegisterDate?.ToString("yyyy/MM/dd"))
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="fw-bold">
+
+                            تعداد نوبت
+
+                        </label>
+
+                        <div class="form-control bg-light">
+
+                            @Model.Queues.Count
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card-footer text-end">
+
+                <a asp-action="Edit"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-warning">
+
+                    <i class="bi bi-pencil-square"></i>
+
+                    ویرایش
+
+                </a>
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+
+                    <i class="bi bi-arrow-return-right"></i>
+
+                    بازگشت
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

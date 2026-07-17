@@ -1,0 +1,37 @@
+@model LoadingQueue.Models.CompanySettings
+
+@{
+    ViewData["Title"] = "تنظیمات";
+}
+
+<h4 class="mb-3">تنظیمات شرکت</h4>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="card shadow-sm p-4" style="max-width: 600px;">
+
+    <form asp-action="Index" method="post">
+
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CompanyId" />
+
+        <div class="mb-3 form-check form-switch">
+            <input asp-for="RequireApprovalForCompletion" class="form-check-input" role="switch" />
+            <label asp-for="RequireApprovalForCompletion" class="form-check-label"></label>
+            <div class="form-text">اگه فعال باشه، فقط مدیر شرکت می‌تونه نوبت رو «تکمیل‌شده» کنه؛ کاربر عادی نمی‌تونه.</div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DefaultPageSize" class="form-label"></label>
+            <input asp-for="DefaultPageSize" type="number" class="form-control" style="max-width:150px" />
+            <span asp-validation-for="DefaultPageSize" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">ذخیره تنظیمات</button>
+
+    </form>
+
+</div>

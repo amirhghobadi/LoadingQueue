@@ -1,0 +1,94 @@
+@model LoadingQueue.ViewModels.UserCreateVm
+
+@{
+    ViewData["Title"] = "کاربر جدید";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">ثبت کاربر جدید</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create" method="post">
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="FullName" class="form-label"></label>
+                            <input asp-for="FullName" class="form-control" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Role" class="form-label"></label>
+                            <select asp-for="Role" class="form-select" id="roleSelect">
+                                <option value="">انتخاب کنید</option>
+                                <option value="SystemAdmin">مدیر سیستم</option>
+                                <option value="CompanyAdmin">مدیر شرکت</option>
+                                <option value="User">کاربر عادی</option>
+                                <option value="Driver">راننده</option>
+                            </select>
+                            <span asp-validation-for="Role" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row" id="companyRow">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="CompanyId" class="form-label"></label>
+                            <select asp-for="CompanyId" class="form-select">
+                                <option value="">انتخاب کنید</option>
+                                @foreach (var c in Model.Companies!)
+                                {
+                                    <option value="@c.Id">@c.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="CompanyId" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="IsActive" class="form-label d-block"></label>
+                            <input asp-for="IsActive" class="form-check-input" checked />
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-between">
+                        <a asp-action="Index" class="btn btn-secondary">بازگشت</a>
+                        <button type="submit" class="btn btn-success">ثبت کاربر</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $("#roleSelect").on("change", function () {
+            if ($(this).val() === "SystemAdmin") {
+                $("#companyRow").hide();
+            } else {
+                $("#companyRow").show();
+            }
+        });
+    </script>
+}

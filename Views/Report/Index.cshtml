@@ -1,0 +1,142 @@
+@model LoadingQueue.ViewModels.ReportFilterVm
+@using LoadingQueue.Models
+
+@{
+    ViewData["Title"] = "گزارش‌ها";
+}
+
+<h4 class="mb-3">گزارش نوبت‌های بارگیری</h4>
+
+<form method="get" class="row g-2 mb-3 align-items-end">
+
+    <div class="col-md-2">
+        <label class="form-label">از تاریخ</label>
+        <input type="date" name="fromDate" class="form-control" value="@Model.FromDate.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <div class="col-md-2">
+        <label class="form-label">تا تاریخ</label>
+        <input type="date" name="toDate" class="form-control" value="@Model.ToDate.ToString("yyyy-MM-dd")" />
+    </div>
+
+    <div class="col-md-2">
+        <label class="form-label">وضعیت</label>
+        <select name="status" class="form-select">
+            <option value="">همه</option>
+            <option value="1" selected="@(Model.Status == 1)">در انتظار</option>
+            <option value="2" selected="@(Model.Status == 2)">در حال بارگیری</option>
+            <option value="3" selected="@(Model.Status == 3)">تکمیل شده</option>
+            <option value="4" selected="@(Model.Status == 4)">لغو شده</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label">جستجو (بارنامه، راننده، شماره ماشین)</label>
+        <input type="text" name="search" class="form-control" value="@Model.Search" />
+    </div>
+
+    <div class="col-md-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-search"></i>
+            فیلتر
+        </button>
+
+        <a class="btn btn-success"
+           href="@Url.Action("ExportExcel", new { fromDate = Model.FromDate.ToString("yyyy-MM-dd"), toDate = Model.ToDate.ToString("yyyy-MM-dd"), status = Model.Status, search = Model.Search })">
+            <i class="bi bi-file-earmark-excel"></i>
+            اکسل
+        </a>
+
+        <a class="btn btn-outline-dark"
+           target="_blank"
+           href="@Url.Action("Print", new { fromDate = Model.FromDate.ToString("yyyy-MM-dd"), toDate = Model.ToDate.ToString("yyyy-MM-dd"), status = Model.Status, search = Model.Search })">
+            <i class="bi bi-printer"></i>
+            چاپ
+        </a>
+    </div>
+
+</form>
+
+<div class="row g-2 mb-3">
+
+    <div class="col-md-3">
+        <div class="card text-center p-2 shadow-sm">
+            <div class="fw-bold fs-5">@Model.TotalCount</div>
+            <div class="text-muted small">کل نوبت‌ها</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center p-2 shadow-sm">
+            <div class="fw-bold fs-5 text-warning">@Model.PendingCount</div>
+            <div class="text-muted small">در انتظار</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center p-2 shadow-sm">
+            <div class="fw-bold fs-5 text-success">@Model.CompletedCount</div>
+            <div class="text-muted small">تکمیل شده</div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center p-2 shadow-sm">
+            <div class="fw-bold fs-5">@Model.TotalFreight.ToString("N0")</div>
+            <div class="text-muted small">جمع کرایه (ریال)</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-sm align-middle">
+        <thead class="table-primary">
+            <tr>
+                <th>شماره نوبت</th>
+                <th>تاریخ</th>
+                <th>ساعت</th>
+                <th>باربری</th>
+                <th>راننده</th>
+                <th>شماره ماشین</th>
+                <th>بارنامه</th>
+                <th>مقصد</th>
+                <th>کرایه</th>
+                <th>وضعیت</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var q in Model.Results)
+            {
+                <tr>
+                    <td>@q.QueueNumber</td>
+                    <td>@q.QueueDate.ToString("yyyy/MM/dd")</td>
+                    <td>@q.QueueTime?.ToString(@"hh\:mm")</td>
+                    <td>@q.ShippingCompanyName</td>
+                    <td>@q.DriverName</td>
+                    <td>@q.DriverCarNumber</td>
+                    <td>@q.WaybillNumber</td>
+                    <td>@q.Destination</td>
+                    <td>@(q.FreightAmount?.ToString("N0"))</td>
+                    <td>
+                        @switch (q.Status)
+                        {
+                            case QueueStatus.Pending:
+                                <span class="badge bg-warning text-dark">در انتظار</span>
+                                break;
+                            case QueueStatus.InProgress:
+                                <span class="badge bg-info text-dark">در حال بارگیری</span>
+                                break;
+                            case QueueStatus.Completed:
+                                <span class="badge bg-success">تکمیل شده</span>
+                                break;
+                            default:
+                                <span class="badge bg-danger">لغو شده</span>
+                                break;
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

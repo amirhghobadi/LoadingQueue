@@ -1,0 +1,36 @@
+@model LoadingQueue.Models.ShippingCompany
+
+@{
+    ViewData["Title"] = "مشخصات باربری";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">@Model.Name</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">مدیرعامل</dt>
+                    <dd class="col-sm-9">@Model.ManagerName</dd>
+
+                    <dt class="col-sm-3">موبایل</dt>
+                    <dd class="col-sm-9">@Model.MobilePhone</dd>
+
+                    <dt class="col-sm-3">تلفن ثابت</dt>
+                    <dd class="col-sm-9">@Model.LandlinePhone</dd>
+
+                    <dt class="col-sm-3">آدرس</dt>
+                    <dd class="col-sm-9">@Model.Address</dd>
+
+                    <dt class="col-sm-3">تاریخ ثبت</dt>
+                    <dd class="col-sm-9">@Model.CreatedAt.ToString("yyyy/MM/dd")</dd>
+                </dl>
+
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">ویرایش</a>
+                <a asp-action="Index" class="btn btn-secondary">بازگشت</a>
+            </div>
+        </div>
+    </div>
+</div>

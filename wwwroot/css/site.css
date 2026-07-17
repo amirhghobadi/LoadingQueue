@@ -1,0 +1,236 @@
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    background: #f5f6fa;
+    font-family: 'Vazir', sans-serif !important;
+    font-size: 12px;
+}
+
+.container-fluid {
+    max-width: 100%;
+}
+
+.card {
+    border-radius: 6px;
+}
+
+.card-header {
+    padding: 6px 10px;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.form-control-sm {
+    height: 30px;
+    font-size: 12px;
+}
+
+#queueTable {
+    width: 100%;
+    height: calc(100vh - 180px);
+}
+
+/**************************
+    نوار روزهای ماه (Pagination)
+**************************/
+
+.day-pagination {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 6px 4px;
+    background: #fff;
+    border-top: 1px solid #dcdcdc;
+    white-space: nowrap;
+}
+
+.day-btn {
+    flex: 0 0 auto;
+    min-width: 34px;
+    height: 34px;
+    border: 1px solid #d0d5dd;
+    background: #f8f9fb;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.day-btn:hover {
+    background: #e6f0ff;
+}
+
+/* روزی که الان جدول داره نشون می‌ده */
+.day-btn.active {
+    background: #0d6efd;
+    color: #fff;
+    border-color: #0d6efd;
+}
+
+/* روز واقعی امروز (حتی وقتی روز دیگه‌ای رو می‌بینی، این همیشه مشخصه) */
+.day-btn.today {
+    border: 2px solid #198754;
+    color: #198754;
+    font-weight: bold;
+}
+
+/* وقتی هم امروزه هم همون روزیه که داری می‌بینی */
+.day-btn.today.active {
+    background: #198754;
+    border-color: #198754;
+    color: #fff;
+}
+
+/**************************
+        TABULATOR
+**************************/
+
+.tabulator {
+
+    font-size: 12px;
+
+    border: 1px solid #dcdcdc;
+
+}
+
+.tabulator-header {
+
+    background: #0d6efd;
+
+    color: #fff;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+}
+
+.tabulator-col {
+
+    background: #0d6efd !important;
+
+    color: #fff;
+
+    border-right: 1px solid #ffffff40;
+
+}
+
+.tabulator-col-title {
+
+    text-align: center;
+
+}
+
+.tabulator-row {
+
+    min-height: 28px;
+
+}
+
+.tabulator-cell {
+
+    padding: 3px 4px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+    text-align: center;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    text-overflow: ellipsis;
+
+}
+
+.tabulator-row:nth-child(even) {
+
+    background: #F5F9FF;
+
+}
+
+.tabulator-row:hover {
+
+    background: #DCEEFF;
+
+}
+
+.tabulator-selected {
+
+    background: #b6d7ff !important;
+
+}
+
+.drag-handle-cell {
+    cursor: grab;
+}
+
+.tabulator-footer {
+
+    font-size: 11px;
+
+}
+
+.tabulator-page {
+
+    font-size: 14px;
+
+    padding: 3px 8px;
+
+}
+
+/**************************
+    SweetAlert
+**************************/
+
+.swal2-popup {
+
+    font-size: 14px;
+
+}
+
+#driverTable {
+
+    margin-top: 10px;
+
+}
+
+/**************************
+    Scroll
+**************************/
+
+::-webkit-scrollbar {
+
+    width: 8px;
+
+    height: 8px;
+
+}
+
+::-webkit-scrollbar-thumb {
+
+    background: #bdbdbd;
+
+    border-radius: 10px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: #999;
+
+}

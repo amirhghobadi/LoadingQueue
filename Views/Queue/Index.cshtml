@@ -1,0 +1,208 @@
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "صف بارگیری";
+
+    var pc = new PersianCalendar();
+    var now = DateTime.Now;
+
+    var today =
+        $"{pc.GetYear(now):0000}/" +
+        $"{pc.GetMonth(now):00}/" +
+        $"{pc.GetDayOfMonth(now):00}";
+
+    int pYear = pc.GetYear(now);
+    int pMonth = pc.GetMonth(now);
+    int todayDay = pc.GetDayOfMonth(now);
+    int daysInMonth = pc.GetDaysInMonth(pYear, pMonth);
+}
+
+<div class="container-fluid mt-2">
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-primary text-white py-2">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-3">
+
+                    <h5 class="mb-0">
+                        مدیریت صف بارگیری
+                    </h5>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <input id="txtToday"
+                           class="form-control form-control-sm text-center"
+                           readonly
+                           value="@today" />
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <input id="txtClock"
+                           class="form-control form-control-sm text-center"
+                           readonly />
+
+                </div>
+
+                <div class="col-md-5">
+
+                    <div class="row">
+
+                        <div class="col-6">
+
+                            <input id="txtCarNumber"
+                                   class="form-control form-control-sm"
+                                   placeholder="شماره ماشین..." />
+
+                        </div>
+
+                        <div class="col-6">
+
+                            <input id="txtWaybill"
+                                   class="form-control form-control-sm"
+                                   placeholder="شماره بارنامه..." />
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-body p-1">
+
+            <div id="queueTable"></div>
+
+        </div>
+
+        <div class="day-pagination" id="dayPagination">
+
+           @for (int i = 1; i <= daysInMonth; i++)
+            {
+                var gDate = pc.ToDateTime(pYear, pMonth, i, 0, 0, 0, 0);
+                var isToday = i == todayDay;
+
+                <button type="button"
+                        class="day-btn @(isToday ? "today active" : "")"
+                        data-date="@gDate.ToString("yyyy-MM-dd")">
+                    @i
+                </button>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts{
+
+<script src="~/js/queue-format.js" asp-append-version="true"></script>
+<script src="~/js/queue-table.js" asp-append-version="true"></script>
+<script src="~/js/driver-search.js" asp-append-version="true"></script>
+<script src="~/js/queue-keyboard.js" asp-append-version="true"></script>
+
+<script>
+
+// تاریخ روزی که الان تو جدول نمایش داده می‌شه (پیش‌فرض: امروز)
+// این متغیر توسط driver-search.js هم استفاده می‌شه (موقع ساخت نوبت جدید)
+// تا نوبت تازه‌ساخته‌شده تو همون روزی که الان بازش کردی نشون داده بشه.
+var selectedDate = "@DateTime.Today.ToString("yyyy-MM-dd")";
+
+
+//========================
+// ساعت زنده
+//========================
+setInterval(function () {
+
+    $("#txtClock").val(
+
+        new Date().toLocaleTimeString("fa-IR", {
+            hour: "2-digit",
+            minute: "2-digit"
+        })
+
+    );
+
+}, 1000);
+
+
+//========================
+// جستجوی بارنامه (فیلتر جدول)
+//========================
+$("#txtWaybill").on("keyup", function () {
+
+    let value = $(this).val();
+
+    if (value == "") {
+        table.clearFilter(true);
+        return;
+    }
+
+    table.setFilter("waybillNumber", "like", value);
+
+});
+
+
+//========================
+// جستجوی شماره ماشین (فیلتر جدول)
+//========================
+$("#txtCarNumber").on("keyup", function (e) {
+
+    if (e.key === "Enter")
+        return;
+
+    let value = $(this).val();
+
+    if (value == "") {
+        table.clearFilter(true);
+        return;
+    }
+
+    table.setFilter("driverCarNumber", "like", value);
+
+});
+
+
+//========================
+// کلیک روی هر روز از نوار پایین -> نمایش نوبت‌های همون روز
+//========================
+$("#dayPagination").on("click", ".day-btn", function () {
+
+    $("#dayPagination .day-btn").removeClass("active");
+    $(this).addClass("active");
+
+    selectedDate = $(this).data("date");
+
+    table.setData("/Queue/GetData?date=" + selectedDate);
+
+});
+
+
+//========================
+// روز فعال همیشه تو دید باشه (وسط نوار اسکرول بشه)
+//========================
+$(function () {
+
+    let activeBtn = document.querySelector(".day-btn.active");
+
+    if (activeBtn) {
+        activeBtn.scrollIntoView({ inline: "center", block: "nearest" });
+    }
+
+    $("#txtCarNumber").focus();
+
+});
+
+</script>
+
+}
