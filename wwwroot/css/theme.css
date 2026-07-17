@@ -1,0 +1,334 @@
+/* ====================================
+   FONTS - فونت Vazir
+   ==================================== */
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+/* ====================================
+   ROOT COLORS - Light Mode
+   ==================================== */
+:root {
+    /* Primary Colors */
+    --primary: #0d47a1;
+    --primary-light: #1565c0;
+    --primary-dark: #0a3580;
+    
+    /* Secondary Colors */
+    --secondary: #26c6da;
+    --secondary-light: #4dd0e1;
+    --secondary-dark: #00acc1;
+    
+    /* Neutral Colors */
+    --neutral-50: #fafbfc;
+    --neutral-100: #f3f5f7;
+    --neutral-200: #e8ecf1;
+    --neutral-300: #d0d8e0;
+    --neutral-400: #b0b8c0;
+    --neutral-500: #8b94a0;
+    --neutral-600: #5c6670;
+    --neutral-700: #3c4450;
+    --neutral-800: #1f2937;
+    --neutral-900: #111827;
+    
+    /* Status Colors */
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --info: #0d47a1;
+    
+    /* Background */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-tertiary: #f0f4f8;
+    
+    /* Text */
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text-tertiary: #9ca3af;
+    
+    /* Border */
+    --border-color: #e5e7eb;
+    
+    /* Shadow */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    
+    /* Transition */
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+/* ====================================
+   Dark Mode Theme
+   ==================================== */
+[data-theme="dark"] {
+    --primary: #1e88e5;
+    --primary-light: #42a5f5;
+    --primary-dark: #1565c0;
+    
+    --secondary: #26c6da;
+    --secondary-light: #4dd0e1;
+    --secondary-dark: #00acc1;
+    
+    --neutral-50: #1a1a1a;
+    --neutral-100: #262626;
+    --neutral-200: #333333;
+    --neutral-300: #404040;
+    --neutral-400: #626262;
+    --neutral-500: #787878;
+    --neutral-600: #a0a0a0;
+    --neutral-700: #c0c0c0;
+    --neutral-800: #e0e0e0;
+    --neutral-900: #ffffff;
+    
+    --success: #4caf50;
+    --warning: #ffc107;
+    --error: #f44336;
+    --info: #2196f3;
+    
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --bg-tertiary: #2a2a2a;
+    
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-tertiary: #707070;
+    
+    --border-color: #333333;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+}
+
+/* ====================================
+   GLOBAL STYLES
+   ==================================== */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Vazir', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: 14px;
+    line-height: 1.6;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--primary-light);
+    text-decoration: underline;
+}
+
+/* ====================================
+   ANIMATIONS
+   ==================================== */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.animate-fade-in { animation: fadeIn var(--transition-base) ease-out; }
+.animate-slide-up { animation: slideInUp var(--transition-base) ease-out; }
+.animate-slide-down { animation: slideInDown var(--transition-base) ease-out; }
+.animate-slide-right { animation: slideInRight var(--transition-base) ease-out; }
+.animate-slide-left { animation: slideInLeft var(--transition-base) ease-out; }
+.animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.animate-spin { animation: spin 1s linear infinite; }
+.animate-bounce { animation: bounce 1s infinite; }
+
+/* ====================================
+   LOADING OVERLAY
+   ==================================== */
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+}
+
+.loader-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #42a5f5;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loader-text {
+    position: absolute;
+    bottom: 40px;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ====================================
+   CARDS & CONTAINERS
+   ==================================== */
+.card {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    background-color: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 16px;
+    border-radius: 8px 8px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-body { padding: 16px; }
+.card-footer {
+    background-color: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+    padding: 12px 16px;
+    border-radius: 0 0 8px 8px;
+}
+
+/* ====================================
+   SCROLLBAR STYLING
+   ==================================== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--neutral-400);
+    border-radius: 4px;
+    transition: background var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--neutral-500);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--neutral-400) var(--bg-tertiary);
+}
