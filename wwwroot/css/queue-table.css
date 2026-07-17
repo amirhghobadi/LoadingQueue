@@ -1,0 +1,354 @@
+/* ====================================
+   TABLE STYLES - Queue Table
+   ==================================== */
+.tabulator {
+    font-size: 13px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-primary);
+    font-family: 'Vazir', sans-serif;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabulator-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    box-shadow: var(--shadow-md);
+}
+
+.tabulator-col {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%) !important;
+    color: white !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 12px 8px !important;
+    font-weight: 600;
+    text-align: center;
+}
+
+.tabulator-col-title {
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.tabulator-row {
+    min-height: 36px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color var(--transition-fast);
+}
+
+.tabulator-cell {
+    padding: 8px 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-primary);
+    border-right: 1px solid var(--border-color);
+}
+
+.tabulator-row:nth-child(even) {
+    background-color: var(--bg-tertiary);
+}
+
+.tabulator-row:nth-child(odd) {
+    background-color: var(--bg-primary);
+}
+
+.tabulator-row:hover {
+    background-color: rgba(13, 71, 161, 0.08) !important;
+    box-shadow: inset 0 0 0 1px var(--primary);
+    transform: scale(1.01);
+    transition: all var(--transition-fast);
+}
+
+.tabulator-selected {
+    background-color: rgba(13, 71, 161, 0.15) !important;
+}
+
+.tabulator-footer {
+    background-color: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+    font-size: 12px;
+    padding: 8px;
+    color: var(--text-secondary);
+}
+
+.tabulator-page {
+    padding: 4px 8px;
+    margin: 0 2px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.tabulator-page:hover {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.tabulator-page.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.drag-handle-cell {
+    cursor: grab;
+    padding: 0 8px !important;
+}
+
+.drag-handle-cell:active {
+    cursor: grabbing;
+}
+
+/* ====================================
+   STATUS BADGES
+   ==================================== */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-pending {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.status-in-progress {
+    background-color: rgba(13, 71, 161, 0.1);
+    color: var(--primary);
+    border: 1px solid rgba(13, 71, 161, 0.3);
+}
+
+.status-completed {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-cancelled {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ====================================
+   DAY PAGINATION
+   ==================================== */
+.day-pagination {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 12px 8px;
+    background-color: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+    white-space: nowrap;
+    scroll-behavior: smooth;
+}
+
+.day-pagination::-webkit-scrollbar {
+    height: 6px;
+}
+
+.day-pagination::-webkit-scrollbar-thumb {
+    background: var(--neutral-400);
+    border-radius: 3px;
+}
+
+.day-btn {
+    flex: 0 0 auto;
+    min-width: 40px;
+    height: 40px;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-primary);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Vazir', sans-serif;
+}
+
+.day-btn:hover {
+    background-color: var(--bg-tertiary);
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.day-btn.active {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+    animation: slideInUp var(--transition-fast) ease-out;
+}
+
+.day-btn.today {
+    border: 2px solid var(--success);
+    color: var(--success);
+    font-weight: 700;
+}
+
+.day-btn.today.active {
+    background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+    color: white;
+    border-color: var(--success);
+}
+
+/* ====================================
+   QUEUE TABLE CONTAINER
+   ==================================== */
+#queueTable {
+    width: 100%;
+    height: calc(100vh - 240px);
+}
+
+.queue-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.queue-toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.queue-toolbar .form-control {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* ====================================
+   TABS FOR SYSTEMADMIN
+   ==================================== */
+.nav-tabs {
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    background-color: var(--bg-tertiary);
+    padding: 8px;
+    border-radius: 8px 8px 0 0;
+}
+
+.nav-tabs .nav-link {
+    padding: 12px 20px;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    margin-right: 8px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--primary);
+    background-color: rgba(13, 71, 161, 0.05);
+    border-color: rgba(13, 71, 161, 0.2);
+}
+
+.nav-tabs .nav-link.active {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+}
+
+.tab-content {
+    background-color: var(--bg-primary);
+    border-radius: 0 8px 8px 8px;
+    padding: 16px;
+    animation: fadeIn var(--transition-base) ease-out;
+}
+
+.tab-pane {
+    animation: fadeIn var(--transition-base) ease-out;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.tab-pane:not(.active) {
+    display: none;
+}
+
+/* ====================================
+   COMPANY TAB BADGE
+   ==================================== */
+.company-tab-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+    background-color: rgba(13, 71, 161, 0.1);
+    color: var(--primary);
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* ====================================
+   RESPONSIVE
+   ==================================== */
+@media (max-width: 768px) {
+    #queueTable {
+        height: calc(100vh - 300px);
+    }
+    
+    .tabulator-cell {
+        font-size: 11px;
+        padding: 6px 3px;
+    }
+    
+    .tabulator-col {
+        padding: 8px 4px !important;
+        font-size: 11px;
+    }
+    
+    .nav-tabs {
+        gap: 4px;
+    }
+    
+    .nav-tabs .nav-link {
+        padding: 8px 12px;
+        font-size: 12px;
+        margin-right: 4px;
+    }
+    
+    .queue-toolbar {
+        flex-direction: column;
+    }
+    
+    .queue-toolbar .form-control {
+        width: 100%;
+    }
+}
